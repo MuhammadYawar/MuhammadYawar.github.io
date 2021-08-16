@@ -1,0 +1,820 @@
+<html>
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Document Title</title>
+
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 10pt;
+            background-color: #fff;
+        }
+
+        p {
+            margin: 0pt;
+        }
+
+        table.items {
+            border: 0.1mm solid #e7e7e7;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        .items td {
+            border-left: 0.1mm solid #e7e7e7;
+            border-right: 0.1mm solid #e7e7e7;
+        }
+
+        table thead td {
+            text-align: center;
+            border: 0.1mm solid #e7e7e7;
+        }
+
+        .items td.blanktotal {
+            background-color: #EEEEEE;
+            border: 0.1mm solid #e7e7e7;
+            background-color: #FFFFFF;
+            border: 0mm none #e7e7e7;
+            border-top: 0.1mm solid #e7e7e7;
+            border-right: 0.1mm solid #e7e7e7;
+        }
+
+        .items td.totals {
+            text-align: right;
+            border: 0.1mm solid #e7e7e7;
+        }
+
+        .items td.cost {
+            text-align: "."center;
+        }
+
+        input,
+        .hide,
+        .content,
+        input:checked ~ .show {
+            display: block;
+        }
+
+        input:checked ~ .hide,
+        input:checked ~ .content {
+            display: block;
+        }
+
+        input {
+            /* width: 18px;
+            height: 18px; */
+            margin-top: .25em;
+            vertical-align: top;
+            /* background-color: #151515;
+            border: 1px solid #383838; */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border: 1px solid rgba(0,0,0,.25);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+            background-color: #fff;
+            border: 1px solid #383838;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            border-radius: 3px;
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-left: 0;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABHNCSVQICAgIfAhkiAAAAK9JREFUKFN9koENwjAMBNMN2AQ2ADaATWAS2AQ2ADaATRiBv6qWjOM40letm1Ocf0+ttY10kY7SV6rWSj9v0nnS4yltpbe0L2Cgx3LQC5AC8LqAPfTRvh0gq4I7iK4MHMHUrb35JLuKBzOYGub9QRQjGGG+O6gCrT32pG5nrfo7AaZuR3OiEYBpVD6O1L1RVDYAI2iJuc/Zj1zqnpHh5HnkyOkqHSxctzm+MkV36fQD71g+D/yc9pkAAAAASUVORK5CYII=);
+            background-size: 10px;
+        }
+
+        input:checked {
+            background-color: #fff;
+            border-color: #484065;
+        }
+
+            input:checked[type="checkbox"] {
+                /* background-image: url(../images/icons/checked.png); */
+                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbQAAAG0BjlwfygAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACGSURBVDiNxdAxCgIxEAXQp/1eQARlT2DnObyEl9Bij2ApeDfRfgsLW1mbDawDQhILB6ZJ/vuB8KdpsK7FLW54YV+D7xjGffyCB5xy8QrXgC+Yp8AWi4KXz5ilwHE87LEpxfCcXE5LsjAcQqjHLhen6UI47seHlZZk4W8lRTiWVOE0y1pYPG/VW0IYJ55ztwAAAABJRU5ErkJggg==');
+                background-position: center;
+                background-size: 10px;
+                background-color: transparent;
+                border-color: #484065;
+            }
+
+        input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper" style="max-width: 1200px; margin: 0 auto">
+        <table width="100%" style="font-family: sans-serif;" cellpadding="10">
+            <tr>
+                <td width="100%" style="padding: 0px; text-align: center;">
+                    <img width="96" height="41" alt="Logo" align="center" border="0" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAApCAYAAADKzyycAAAACXBIWXMAAAsTAAALEwEAmpwYAAA57GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMwNjcgNzkuMTU3NzQ3LCAyMDE1LzAzLzMwLTIzOjQwOjQyICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgICAgICAgICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMjAtMDktMjhUMTM6MzQ6MTgrMDU6MDA8L3htcDpDcmVhdGVEYXRlPgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAyMS0wNC0yNVQwMjo1NDowNSswNTowMDwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6TWV0YWRhdGFEYXRlPjIwMjEtMDQtMjVUMDI6NTQ6MDUrMDU6MDA8L3htcDpNZXRhZGF0YURhdGU+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDxwaG90b3Nob3A6Q29sb3JNb2RlPjM8L3Bob3Rvc2hvcDpDb2xvck1vZGU+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6Y2EzNjkxMDEtOWM5NC0xNDRlLTk5YjktMGMxOWE0ZGNhMDFiPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6OGFkODY2MzctYTU0Ny0xMWViLWJiN2ItZmY3NWFlZDkzNTA3PC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NDJmZTliM2UtMmE4Zi1hNjRmLTg5MmEtYmIxNzM2ZDkyOGM1PC94bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+CiAgICAgICAgIDx4bXBNTTpIaXN0b3J5PgogICAgICAgICAgICA8cmRmOlNlcT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+Y3JlYXRlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOjQyZmU5YjNlLTJhOGYtYTY0Zi04OTJhLWJiMTczNmQ5MjhjNTwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAyMC0wOS0yOFQxMzozNDoxOCswNTowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDpjYTM2OTEwMS05Yzk0LTE0NGUtOTliOS0wYzE5YTRkY2EwMWI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMjEtMDQtMjVUMDI6NTQ6MDUrMDU6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmNoYW5nZWQ+Lzwvc3RFdnQ6Y2hhbmdlZD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgIDwvcmRmOlNlcT4KICAgICAgICAgPC94bXBNTTpIaXN0b3J5PgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICAgICA8dGlmZjpYUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOllSZXNvbHV0aW9uPjcyMDAwMC8xMDAwMDwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MjwvdGlmZjpSZXNvbHV0aW9uVW5pdD4KICAgICAgICAgPGV4aWY6Q29sb3JTcGFjZT42NTUzNTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+OTY8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NDE8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PuGaLlQAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAB4RJREFUeNrsm3uQjXUYxz9nz2Zrl12yGFZStK22VIrcGkLXITaKFLmlweZeIWzlEm0jDZJCiNBFTCqhUkYSuXQRIyslYUiLdclq++P3fWfOnDnvOe85+26zezrPzM7snPO+5/39nu/v9zzf5/v8Xg+l1yoC9wHtgVTgMLAaWAkcsLnHC1wDdAKaAIlAHvA28AlwvrRN0lNKnX8VMBOoB2wGfgXS5NxDwBxgBXDSZx7Vga5AN6AQ2AEU6DfqAe8Do4ATMQCC2yXAW0AGMBD4EjgHJAA3A/2AG4A3gdnAcaAOMBxoCnwAzAP2AheAZO2IyUCu/opiANjb3cB84CFgTYDvqwMPAw8Aq4AvgO5AbeB1YLnPzvCd57P6zWbaRTEAbGwCcA/QUKEkkKUo1PRRrvgNeEGAnbW5JwP4CuhsA2wMANlUOf9W4B+ba8rp+xEKS8sUWvYo7ASyNGC7QFsRA8De+iuetwb2Bfg+CbgJ6AlUFSOqA3wDLAF2AX8HmGcH4BXgLiXoGAA2linauByYARxRKIoXHW0GdATKA68B3wJZ+mwXsBT4HsjXDkoArgSmiIZ2AU7HALC3OGAA0AtYB6wX06kENFDIOSSms0FOTQbaqW6IU6zfKfaUBtwhEEbqN2M0NISV10q9Xf8Xqsg6AXytomqPX45IAK4H2moXJYhuegXYUmBtkBwRA8DPLtKqzdAKPymn5wFngtxXSYXc5UrWR4GfxJSKStskSzMA/uMs+g/viwHwfzEPUBOorK36ewkk1Cqii0eBPxzcE6+w8ydw0MWxZChh73VwbRX9HQT+KgG/lwPqAgUeYJho3A6xBDfFqmrAUPH2ZRiBLVRISJXO8yEw3cWFtgg4Bjzu4PoWKtjWAu8Bp1wGoLl8vcADTFPxcwgYi1Ea3UK5nbh8opw/wgEANbQY5gFPuAjAj9qBrR1cfwXwIkYYHKr6wk1yMRW4E8jyaJX1Ers4LmFrnwsPqqnKs4Ho4mKHAFiSwXxVxG4BsFMAtHIYBrOBvsB47d6zLo2lIUY03AgMtwC4H6MWPq2VlxNECHOKcj8VVCvE51eXIQDA9BCmK2wNcSk/eqVZ3SspZYMFQAdtTUtTH1CMitEDpCt2bgHmSgb4tIwBEK843R3Tl1hTzEUJcC2wENimuR3zBaA+UEuhYptWcH4ED0kCXgJaYjR7j7ZcWQPActhcFXKDFaKLM4Yc4BH5di1Q6AtApmhaP8W/8REm5LZiMbnARODGMgxAHKaT1llheksxpIw68kse8JQV0vwByFcZPxujGPYPMyEnytEXA20UP8syAACN5LhVWsGR1gWDFMoGKx+eswMgAaMqPicn5FoXO5jkMKHbF9MEJwoAiAdmKUd2BLZGIG+kAa8qhwyULoUdAACXiRWlA6MxfddQD81UovoYeMwnYZV1AKzCbAGmTzE2hBgY6Nk9VE9MBt71pbR2AHiF+ESM/DsxhCyQpEKrGaafu9vnu2gAoJwAaKDicncY91ZXUZeiCLHbf2CBAED6zSBVbNNVyp+3mVxbTHdqikIWUQaARS5mqric5DAMWa3QkaKfb+B3YiMYAB6gMTBO+lAOptUXyGHz9X+nAEkqWgBIVDLOUHRwcrQlVX6rJxA2BxqYHQBgulE9gN7AO9J18v225mAJV0MkoBGlAKAKdo4W5bQQc/FgWqGjlBtnBKojQgEAcLUcURdzZudzHy7cWAPZKIQLohyAClqINSSvHA5ybWUl3qYiNAGJjBMA4jFHOUZiTiDkikZV0UrIFLXabuPcaAIAVfdztfNnB3leG6m5W5Ubj9hdGAoAKyEP1eBzFWqy9Nki8eQCm3vDBcCSo0sCgIM4k6ODWSVR7TOqlwLJEykCqI38tRKbQ2ZOAfBoK+Woul2iYuu0FNQ9QRwbLgDVgO8wpxgGugSAF6Pp79VuLq71FhMaoNrA3xqrXtivsH0g2MpwAoDF9ftIRi2Q3DAJcxo5mFYeLgAVFIK2q/J0w5KBnzHHWbq58HupigKH9Hsn/IhLX/l0pgC64AYAKBGPV3afpQQcqm8bLgBx0l1qY1qZJ11w2C2YY+6jA9QpkVq2Yny2FqFl9YFnFPMnAb+Eio3hABCPeWPlNsXobYTWyMMFAF03VnXFRy7E//GKya2ATS4BUEeMaIdAsKJCF+BRLdDFhHgrJ1wArO1cUQg7adNFAkA68JkS54PKO5FaI8kIeyUpu3UuNEE7oKsUgzUCZSymIzgGBycwIgEgXIsEAK9W7BhJHBMiHFs6pgGeiXmpY72L8/IA1/lEgkFiPSMwbd3ZOHgnrbQCYNG9MdrSy4CXlUid3F9OrO1JzWucHOX2S3rJGPk9CyPft1QdM9ypYFeaAQC4VFSvpxjHMjGZ/UrORX75qRLmRb72UmULgOeV1E+VwNziFOLm+IC7CNOSLYwGAKyipgWmOV4f0xzar2r8qCaepPqhFuY4zDnlkIXAD4Sn34drVbULspXgLVXAcRxrjjmItISSeY82VVvzAKa3EGkhlaJF0gTzlmRNKZRejTsf0z7dhHlbJk8Jt6QP53pFmVvp+esI4/TEvwMAyUxj+Czy7OQAAAAASUVORK5CYII=' />
+                </td>
+            </tr>
+            <tr>
+                <td height="10" style="font-size: 0px; line-height: 10px; height: 10px; padding: 0px;">&nbsp;</td>
+            </tr>
+        </table>
+
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <!-- <thead>
+            <tr>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+            </tr>
+        </thead> -->
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px; line-height: 20px;" width="100%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px; display: flex; flex-direction: row; justify-content: space-between">
+                                        <div class="title">
+                                            <h2 style="display: block; font-size: 16px; line-height: 22px; margin-bottom: 15px;">EXCLUSIVE RIGHT TO SELL LISTING AGREEMENT & AGENCY DISCLOSURE</h2>
+                                            <p style="display: block; font-size: 12px; line-height: 18px; font-weight: bolder; font-family: 'Comfortaa'; margin-bottom: 10px; text-transform: uppercase;">THIS IS A LEGALLY BINDING CONTRACT. - READ CAREFULLY BEFORE SIGNING. 123456 0/A Ml-IV Inc.</p>
+                                            <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">THIS AGREEMENT</span> is entered into effective the day of (INSERT DATE) , by and between 123456 Ml-JV INC. (the "Company") and (the "Seller")</p>
+
+                                            <strong>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">1.	TERM OF LISTING.</span> The Seller hereby grants to the Company, including INSERT MCIVER NAME as the authorized agent for the Company, for the period of 6 months starting on the date listed above, and ending at 5:00 P.M. (EST) on the (INSERT DATE) day of (INSERT MONTH), (the "Listing Period"), the Exclusive Right to Sell the Asset owned by the Seller, described as: (the "ASSETS"), at the listing price and terms stated on the attached data form (the "Data Form"), or at such other price and terms to which the Seller may agree in writing.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">2.	BROKERAGE FEE.</span> If, during the Listing Period, the Company, the Seller's Agent, the Seller, another agent, or anyone else locates a party who is ready, willing and able to buy (collectively "acquire") the Asset, at the listing price and terms stated on the Data Form, or any other price and terms to which the Seller may agree in writing, the Seller agrees to to sell the asset at the valued amount (INSERT VALUED AMOUNT in $). The amounts shall be due upon full execution of sale documents. In the event of a shortfall of the amount owing on the asset and the valuation payable to the Seller, the Seller warrants to allow a bank withdrawal in the amount of the shortfall, including all banking fees to complete the transaction. In the event of a surplus due back to the Seller, (valuation exceeds cumulative amount of liens) the Company will net all proceeds with all lien holders, if applicable, and the balance owing will be directly deposited to the Sellers account within 72 business hours. If within the Listing Period, or any extension of the Listing Period, the Asset is withdrawn from sale or made unmarketable by a voluntary act of Seller, without the written consent of the Company; or if the sale is prevented by default of the Seller, the brokerage fee shall be immediately due and payable to the Company.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">3.	SELLER WARRANTIES/DISCLOSURES.</span> The Seller warrants to the Company that the individuals or entity listed above as the "Seller" represents the record owners of the Asset(s). The Seller warrants that it has marketable title and an established right to sell the Asset. The Seller agrees to execute the necessary documents of conveyance. The Seller agrees to furnish 123456 Ml-JV CO. with good and marketable title, and to pay at Settlement, for a standard title transfer The Seller agrees to fully inform the (MCI VER INSERT NAME) regarding the Seller's knowledge of the condition of the Asset. Upon signing of this Listing Agreement, the Seller agrees and attests to the accuracy of the information included in the pictures, the declarations and disclosure provided to 123456 Ml-JV COThe Seller agrees to indemnify and hold harmless the Seller's Agent and the Company against any claims that may arise from the Seller providing incorrect or inaccurate information regarding the Asset and will cover all 123456 Ml-JV COincurred costs, including but not limited to, transportation costs (including fuel), marketing and listing costs, interest incurred and all other quantifiable costs as it pertains to its good faith dealing.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">4.	AGENCY RELATIONSHIPS.</span> By signing this Listing Agreement, the Seller designates the MCIVER and the 123456 Ml-JV Company, as agents for the Seller to list and sell the Seller's Asset. The Seller authorizes the Seller's Agent or the 123456 Ml-JV CO to appoint another agent in the Company to also represent the Seller in the event the Seller's Agent or the Broker will be unavailable to service the transaction. As agents for the Seller, they have fiduciary duties to the Seller that include loyalty, full disclosure, confidentiality, and reasonable care. The Seller understands, however, that the Seller's Agent and the Broker may now, or in the future, be agents for a buyer who may wish to negotiate a purchase of the Asset. Then the Seller's Agent and the Broker would be acting as Limited Agents - representing both the Seller and buyer at the same time. A Limited Agent has fiduciary duties to both the Seller and the buyer. However, those duties are "limited" because the agent cannot provide both parties undivided loyalty, full confidentiality and full disclosure of all information known to the agent. For this reason, the Limited Agent is bound by a further duty of neutrality. Being neutral, the Limited Agent may not disclose to either party information likely to weaken the bargaining position of the other - for example, the highest price the buyer will offer, or the lowest price the Seller will accept. The Seller is advised that neither the Seller nor the Buyer is required to accept a limited agency situation in the company, and each party is entitled to be represented by its own agent. If Limited Agency is agreed to below; (a) the Seller authorizes the Seller's Agent and 123456 Ml-JV CO to represent both the Buyer and the Seller as Limited Agents when the Seller's Agent and the Broker also represent the Buyer of the Asset that the Seller owns; (b) the Seller further agrees that when another agent in the Company represents the Buyer, that agent will exclusively represent the Buyer, the Seller's Agent will exclusively represent the Seller, and the Broker will act as a Limited Broker.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">5.	PROFESSIONAL ADVICE.</span> The Company and the Seller's Agent are trained in the marketing of automotive, marine, powersports and leisure assets. Neither the Company nor its agents are trained or licensed to provide the Seller or any prospective buyer with legal or tax advice, or with technical advice regarding the physical condition of these Assets beyond the condition reports that are readily available.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">6.	SELLER AUTHORIZATIONS.</span> Seller authorizes the Company and/or Seller's Agent as follows (check applicable boxes):</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="margin-right: 20px;">[@@isAdvertise@@]</span>  Advertise the Asset through the internet, at the discretion of 123456 Ml-JV CO.</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="margin-right: 20px;">[@@isCommunicated@@]</span>  Communicate with Seller for the purpose of soliciting automotive-related goods and services during and after the term of this Listing Agreement</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="margin-right: 20px;">[@@isObtainInformation@@]</span>  Obtain financial information from any party holding a lien or interest on the Asset</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="margin-right: 20px;">[@@isShowAutomotive@@]</span>   Show the automotive, marine, powersport or leisure related asset to a prospective buyer at it’s avail- able location</p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;">
+                                                    <span style="margin-right: 20px;">[@@isInspection@@]</span>  Order assets inspection to it's available location <br>
+                                                    Seller acknowledges that the Company has discussed with Seller the safeguarding of personal property and valuables located within the asset. Seller acknowledges that the Company is not an insurer against the loss of or damage to personal property. Seller agrees to hold the Company harmless from any loss or damage that might result from any authorizations given in this Section 6.
+                                                </p>
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px;"><span style="font-weight: bold; font-family: 'Comfortaa';">7.	ENTIRE AGREEMENT.</span> This Listing Agreement, including the Seller's Asset Condition Disclosure form and the Data Form, contain the entire agreement between the parties relating to the subject matter of this Listing Agreement. This Listing Agreement may not be modified or amended except in writing signed by the parties hereto.</p>
+                                            </strong>
+
+                                            <footer style="text-align: center;">
+                                                <p style="display: block; font-size: 12px; line-height: 18px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 15px; float: left;">Seller does hereby agree to the terms of this Listing Agreement.</p>
+                                                <p style="width: 15%; float: right; text-transform: uppercase;">
+                                                    <span style="display: block; text-align: center; border-bottom: 1px solid #000; padding-bottom: 2px;">@@INITIALSTR@@</span>
+                                                    <span style="display: block; padding-top: 5px;">Seller Initials</span>
+                                                </p>
+                                            </footer>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+        <br>
+        <!-- <br>
+    <br>
+    <br>
+    <br> -->
+
+
+        <table width="100%" style="font-family: sans-serif;" cellpadding="10" class="new-page">
+            <tr style="display: flex;">
+                <td width="10%" style="padding: 0px; text-align: center;">
+                    <!-- <img src="main-logo-black.jpg" width="96" height="41" alt="Logo" align="center" border="0"> -->
+                    <img width="96" height="41" alt="Logo" align="left" border="0" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAApCAYAAADKzyycAAAACXBIWXMAAAsTAAALEwEAmpwYAAA57GlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMwNjcgNzkuMTU3NzQ3LCAyMDE1LzAzLzMwLTIzOjQwOjQyICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgICAgICAgICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMjAtMDktMjhUMTM6MzQ6MTgrMDU6MDA8L3htcDpDcmVhdGVEYXRlPgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAyMS0wNC0yNVQwMjo1NDowNSswNTowMDwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXA6TWV0YWRhdGFEYXRlPjIwMjEtMDQtMjVUMDI6NTQ6MDUrMDU6MDA8L3htcDpNZXRhZGF0YURhdGU+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDxwaG90b3Nob3A6Q29sb3JNb2RlPjM8L3Bob3Rvc2hvcDpDb2xvck1vZGU+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6Y2EzNjkxMDEtOWM5NC0xNDRlLTk5YjktMGMxOWE0ZGNhMDFiPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6OGFkODY2MzctYTU0Ny0xMWViLWJiN2ItZmY3NWFlZDkzNTA3PC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NDJmZTliM2UtMmE4Zi1hNjRmLTg5MmEtYmIxNzM2ZDkyOGM1PC94bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+CiAgICAgICAgIDx4bXBNTTpIaXN0b3J5PgogICAgICAgICAgICA8cmRmOlNlcT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+Y3JlYXRlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOjQyZmU5YjNlLTJhOGYtYTY0Zi04OTJhLWJiMTczNmQ5MjhjNTwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAyMC0wOS0yOFQxMzozNDoxOCswNTowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDpjYTM2OTEwMS05Yzk0LTE0NGUtOTliOS0wYzE5YTRkY2EwMWI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMjEtMDQtMjVUMDI6NTQ6MDUrMDU6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmNoYW5nZWQ+Lzwvc3RFdnQ6Y2hhbmdlZD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgIDwvcmRmOlNlcT4KICAgICAgICAgPC94bXBNTTpIaXN0b3J5PgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICAgICA8dGlmZjpYUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WFJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOllSZXNvbHV0aW9uPjcyMDAwMC8xMDAwMDwvdGlmZjpZUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6UmVzb2x1dGlvblVuaXQ+MjwvdGlmZjpSZXNvbHV0aW9uVW5pdD4KICAgICAgICAgPGV4aWY6Q29sb3JTcGFjZT42NTUzNTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+OTY8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NDE8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PuGaLlQAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAB4RJREFUeNrsm3uQjXUYxz9nz2Zrl12yGFZStK22VIrcGkLXITaKFLmlweZeIWzlEm0jDZJCiNBFTCqhUkYSuXQRIyslYUiLdclq++P3fWfOnDnvOe85+26zezrPzM7snPO+5/39nu/v9zzf5/v8Xg+l1yoC9wHtgVTgMLAaWAkcsLnHC1wDdAKaAIlAHvA28AlwvrRN0lNKnX8VMBOoB2wGfgXS5NxDwBxgBXDSZx7Vga5AN6AQ2AEU6DfqAe8Do4ATMQCC2yXAW0AGMBD4EjgHJAA3A/2AG4A3gdnAcaAOMBxoCnwAzAP2AheAZO2IyUCu/opiANjb3cB84CFgTYDvqwMPAw8Aq4AvgO5AbeB1YLnPzvCd57P6zWbaRTEAbGwCcA/QUKEkkKUo1PRRrvgNeEGAnbW5JwP4CuhsA2wMANlUOf9W4B+ba8rp+xEKS8sUWvYo7ASyNGC7QFsRA8De+iuetwb2Bfg+CbgJ6AlUFSOqA3wDLAF2AX8HmGcH4BXgLiXoGAA2linauByYARxRKIoXHW0GdATKA68B3wJZ+mwXsBT4HsjXDkoArgSmiIZ2AU7HALC3OGAA0AtYB6wX06kENFDIOSSms0FOTQbaqW6IU6zfKfaUBtwhEEbqN2M0NISV10q9Xf8Xqsg6AXytomqPX45IAK4H2moXJYhuegXYUmBtkBwRA8DPLtKqzdAKPymn5wFngtxXSYXc5UrWR4GfxJSKStskSzMA/uMs+g/viwHwfzEPUBOorK36ewkk1Cqii0eBPxzcE6+w8ydw0MWxZChh73VwbRX9HQT+KgG/lwPqAgUeYJho3A6xBDfFqmrAUPH2ZRiBLVRISJXO8yEw3cWFtgg4Bjzu4PoWKtjWAu8Bp1wGoLl8vcADTFPxcwgYi1Ea3UK5nbh8opw/wgEANbQY5gFPuAjAj9qBrR1cfwXwIkYYHKr6wk1yMRW4E8jyaJX1Ers4LmFrnwsPqqnKs4Ho4mKHAFiSwXxVxG4BsFMAtHIYBrOBvsB47d6zLo2lIUY03AgMtwC4H6MWPq2VlxNECHOKcj8VVCvE51eXIQDA9BCmK2wNcSk/eqVZ3SspZYMFQAdtTUtTH1CMitEDpCt2bgHmSgb4tIwBEK843R3Tl1hTzEUJcC2wENimuR3zBaA+UEuhYptWcH4ED0kCXgJaYjR7j7ZcWQPActhcFXKDFaKLM4Yc4BH5di1Q6AtApmhaP8W/8REm5LZiMbnARODGMgxAHKaT1llheksxpIw68kse8JQV0vwByFcZPxujGPYPMyEnytEXA20UP8syAACN5LhVWsGR1gWDFMoGKx+eswMgAaMqPicn5FoXO5jkMKHbF9MEJwoAiAdmKUd2BLZGIG+kAa8qhwyULoUdAACXiRWlA6MxfddQD81UovoYeMwnYZV1AKzCbAGmTzE2hBgY6Nk9VE9MBt71pbR2AHiF+ESM/DsxhCyQpEKrGaafu9vnu2gAoJwAaKDicncY91ZXUZeiCLHbf2CBAED6zSBVbNNVyp+3mVxbTHdqikIWUQaARS5mqric5DAMWa3QkaKfb+B3YiMYAB6gMTBO+lAOptUXyGHz9X+nAEkqWgBIVDLOUHRwcrQlVX6rJxA2BxqYHQBgulE9gN7AO9J18v225mAJV0MkoBGlAKAKdo4W5bQQc/FgWqGjlBtnBKojQgEAcLUcURdzZudzHy7cWAPZKIQLohyAClqINSSvHA5ybWUl3qYiNAGJjBMA4jFHOUZiTiDkikZV0UrIFLXabuPcaAIAVfdztfNnB3leG6m5W5Ubj9hdGAoAKyEP1eBzFWqy9Nki8eQCm3vDBcCSo0sCgIM4k6ODWSVR7TOqlwLJEykCqI38tRKbQ2ZOAfBoK+Woul2iYuu0FNQ9QRwbLgDVgO8wpxgGugSAF6Pp79VuLq71FhMaoNrA3xqrXtivsH0g2MpwAoDF9ftIRi2Q3DAJcxo5mFYeLgAVFIK2q/J0w5KBnzHHWbq58HupigKH9Hsn/IhLX/l0pgC64AYAKBGPV3afpQQcqm8bLgBx0l1qY1qZJ11w2C2YY+6jA9QpkVq2Yny2FqFl9YFnFPMnAb+Eio3hABCPeWPlNsXobYTWyMMFAF03VnXFRy7E//GKya2ATS4BUEeMaIdAsKJCF+BRLdDFhHgrJ1wArO1cUQg7adNFAkA68JkS54PKO5FaI8kIeyUpu3UuNEE7oKsUgzUCZSymIzgGBycwIgEgXIsEAK9W7BhJHBMiHFs6pgGeiXmpY72L8/IA1/lEgkFiPSMwbd3ZOHgnrbQCYNG9MdrSy4CXlUid3F9OrO1JzWucHOX2S3rJGPk9CyPft1QdM9ypYFeaAQC4VFSvpxjHMjGZ/UrORX75qRLmRb72UmULgOeV1E+VwNziFOLm+IC7CNOSLYwGAKyipgWmOV4f0xzar2r8qCaepPqhFuY4zDnlkIXAD4Sn34drVbULspXgLVXAcRxrjjmItISSeY82VVvzAKa3EGkhlaJF0gTzlmRNKZRejTsf0z7dhHlbJk8Jt6QP53pFmVvp+esI4/TEvwMAyUxj+Czy7OQAAAAASUVORK5CYII=' />
+                </td>
+                <td width="75%"
+                    style="color: #000; text-align: center; font-size: 16px; text-transform: uppercase; font-weight: bold; font-family: 'Comfortaa'; padding: 15px 0 0 0;">
+                    <span>MOTOR VEHICLE PURCHASE AGREEMENT</span>
+                </td>
+            </tr>
+            <tr>
+                <td height="10" style="font-size: 0px; line-height: 10px; height: 10px; padding: 0px;">&nbsp;</td>
+            </tr>
+        </table>
+
+        <table width="100%" style="font-family: sans-serif; border-spacing: 0;" cellpadding="10">
+            <tr style="">
+                <!-- <td width="49%" style="border: 0.1mm solid #eee;"</td>
+            <td width="2%">&nbsp;</td> -->
+                <td width="50%" style="border: none; text-align: left; color: #000; padding: 0;"></td>
+                <td width="50%" style="text-align: left; color: #000; padding: 0;">
+                    <table width="100%" align="right" style="border: 0.1mm solid #e7e7e7;">
+                        <tbody>
+                            <tr>
+                                <td width="50%">
+                                    <div class="select-option" style="padding-left: 20px;">
+                                        <div class="form-check" style="margin-right: 20px; float: left;">
+                                            <input class="form-check-input" type="checkbox" value="" id="new_list">
+                                            <label class="form-check-label" for="new_list" style="font-size: 10px; font-weight: bold; font-family: 'Comfortaa'; color: #000; display: inline-block; text-align: left; text-transform: uppercase; position: relative; top: 8px; margin-left: 10px;">
+                                                New
+                                            </label>
+                                        </div>
+                                        <div class="form-check" style="margin-right: 20px; float: left;">
+                                            <input class="form-check-input" type="checkbox" value="" id="pre_owned" checked="">
+                                            <label class="form-check-label" for="pre_owned" style="font-size: 10px; font-weight: bold; font-family: 'Comfortaa'; color: #000; display: inline-block; text-align: left; text-transform: uppercase; position: relative; top: 8px; margin-left: 10px;">
+                                                Pre-Owned
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="border-left: 0.1mm solid #e7e7e7;" width="50%">
+                                    <div class="select-option" style="">
+                                        <div class="title form-check" style="top: 5.5px; font-size: 10px; font-weight: bold; font-family: 'Comfortaa'; color: #000; display: inline-block; text-align: left; text-transform: uppercase; position: relative; margin-left: 10px; margin-right: 20px;">
+                                            <span class="left">Deal#</span>
+                                            <span class="right">000000001</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                        </tr> -->
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+
+                            <tbody>
+                                <tr>
+                                    <td width="50%" style="background-color: #eee">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 0px; text-transform: uppercase;">Date of Agreement (dd/mm/yyyy)</span>
+                                        </strong>
+                                    </td>
+                                    <td width="50%">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 0px;">16/03/2021</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" style="background-color: #eee; border-top: 0.1mm solid #e7e7e7;">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 0px; text-transform: uppercase;">EXPECTED DELIVERY DATE (dd/mm/yyyy)</span>
+                                        </strong>
+                                    </td>
+                                    <td width="50%" style="border-top: 0.1mm solid #e7e7e7;">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 0px;">31/03/2021</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+        <!-- <br>  -->
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+
+                            <tbody>
+                                <tr>
+                                    <td width="50%" style="background-color: #eee">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 10px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 0px; text-transform: uppercase;">Date of Agreement (dd/mm/yyyy)</span>
+                                        </strong>
+                                    </td>
+                                    <td width="50%">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 0px;">@@TODAYDATE@@</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%" style="background-color: #eee; border-top: 0.1mm solid #e7e7e7;">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 10px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 0px; text-transform: uppercase;">EXPECTED DELIVERY DATE (dd/mm/yyyy)</span>
+                                        </strong>
+                                    </td>
+                                    <td width="50%" style="border-top: 0.1mm solid #e7e7e7;">
+                                        <strong style="display: block; margin-top: 0; padding-left: 20px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 0px;">@@DELIVERYDATE@@</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+
+        <!-- <br> -->
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <!-- <thead>
+            <tr>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+            </tr>
+        </thead> -->
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px; line-height: 20px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="100%" style="padding-left: 25px; text-align: left; background-color: #eee; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000;">BUYER NAME & ADDRESS</td>
+                                    <!-- <td width="50%" style="text-align: left; background-color: #eee; font-size: 10px; font-weight: bold; font-family: 'Interstate'; color: #000;"></td> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px;">
+                                       <strong style="display: block">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">MUV INC.</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">88 SPADINA AVE,</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">OTTAWA, ON K1Y 2C1,</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Canada</span>
+                                        </strong>
+                                        <strong style="display: block; margin-top: 15px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">OMVIC#    HST#</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="padding: 0px; line-height: 20px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="50%" style="padding-left: 25px; text-align: left; background-color: #eee; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000;">SELLERS NAME & ADDRESS</td>
+                                    <td width="50%" style="padding-left: 25px; text-align: left; background-color: #eee; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000;">CO-SELLER NAME & ADDRESS</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px;">
+									  <strong style="display: block">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@FNAME@@ @@LNAME@@</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@STREET@@,</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@CITY@@, @@PROVINCE@@</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@POSTCODE@@, @@COUNTRY@@</span>
+                                        </strong>
+                                        <strong style="display: block; margin-top: 15px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">OMEMBER#  0000003</span>
+                                        </strong>
+                                    </td>
+                                    <td style="padding: 15px 15px 15px 25px;">
+                                        <strong style="display: block">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Daniel Babineau</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">123 Some St,</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Orleans,ON</span>
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">A1B 2C3, Canada</span>
+                                        </strong>
+                                        <strong style="display: block; margin-top: 15px;">
+                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa';">MEMBER# 0000002</span>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <!-- <thead>
+            <tr>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+            </tr>
+        </thead> -->
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px; line-height: 20px;" width="100%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="50%" style="padding-left: 25px; text-align: left; background-color: #fff; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000;">DESCRIPTION OF ASSETS</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px; display: flex; flex-direction: row; justify-content: space-between">
+                                        <div class="col" width="50%" style="float: left; width: 45%; padding-right: 30px;">
+                                            <strong class="head" style="margin-bottom: 15px; display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; text-transform: uppercase;">Purchase</strong>
+                                            <strong style="float: left; width: 50%" align="left">
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Listing No</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Year</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Make</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Model</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Style</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Colour</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">V.I.N</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Vehicle Odometer</span>
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">Disclosures</span>
+                                            </strong>
+                                            <strong sstyle="float: left; width: 50%" align="right">
+                                                <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">M0000002</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEYEAR@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEMAKE@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEMODEL@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEBTYPE@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEECOLOR@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEVIN@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEMIL@@ @@PERCHASEMILUNIT@@</span>
+                                                <span style="display: block; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;">@@PERCHASEDOC@@</span>
+                                            </strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+
+        <br>
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <!-- <thead>
+            <tr>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+            </tr>
+        </thead> -->
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px; line-height: 20px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="100%" style="padding-left: 25px; text-align: left; background-color: #fff; font-size: 11px; border-right: 0; font-weight: bold; font-family: 'Comfortaa'; color: #000; text-transform: uppercase;">Selling Price</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px; display: flex; flex-direction: row; justify-content: space-between; border: none;">
+
+                                        <div class="col" width="50%" style="float: left; width: 100%; padding-right: 30px; min-height: 380px;">
+                                            <strong style="width: 50%" align="left">
+                                                <span style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; text-transform: uppercase; margin-bottom: 15px; width: 100%; clear: both;">
+                                                    <strong style="float: left;">
+                                                        <span>Total Selling Pricing</span>
+                                                    </strong>
+
+                                                    <strong style="float: none; text-align: right;">
+                                                        <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;"><strong style="width: 8%; text-align: left; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Interstate'">$</strong> <strong style="width: 40px; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Interstate'; margin-bottom: 10px;">@@ESTIMATEPRICE@@</strong></span>
+                                                    </strong>
+                                                </span>
+                                                <span style="display: inline-block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 6px; margin-bottom: 15px; width: 100%; clear: both;">
+                                                    <strong style="float: left;">
+                                                        <span style="margin-bottom: 11px; display: block; text-transform: uppercase;">Total Lien Amount Remaining</span>
+
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">BMW Financial</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">1234 Lien Payment ST.</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Broketown, ON</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">K6S9GB</span>
+                                                        </strong>
+                                                    </strong>
+
+                                                    <strong style="float: none; text-align: right;">
+                                                        <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;"><strong style="width: 8%; text-align: left; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'">$</strong> <strong style="width: 40px; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 10px;">(@@LIENAMOUNT@@)</strong></span>
+                                                    </strong>
+                                                </span>
+                                                <span style="display: inline-block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 6px; margin-bottom: 15px; width: 100%; clear: both;">
+                                                    <strong style="float: left;">
+                                                        <span style="margin-bottom: 10px; display: block; text-transform: uppercase;">Contact</span>
+
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">(613) 555-1234</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">email@bmwfinancial.org</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Broketown, ON</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">K6S9GB</span>
+                                                        </strong>
+                                                    </strong>
+                                                </span>
+                                                <span style="display: inline-block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 6px; margin-bottom: 15px; width: 100%; clear: both;">
+                                                    <strong style="float: left;">
+                                                        <span style="margin-bottom: 11px; display: block; text-transform: uppercase;">LIENBALANCE TO BE PAID BY MEMBER</span>
+
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Royal Bank of Canada</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">123 Bank St.</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Bankhead,ON</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">J3D9D8</span>
+                                                        </strong>
+
+                                                        <strong style="display: block; margin-top: 12px;">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Transit No.</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Branch No.</span>
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Account No.</span>
+                                                        </strong>
+                                                    </strong>
+
+                                                    <strong style="float: none; text-align: right;">
+                                                        <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 6px;"><strong style="width: 8%; text-align: left; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'">$</strong> <strong style="width: 40px; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 10px;">(@@CALLIENAMOUNTREMAIN@@)</strong></span>
+                                                    </strong>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td style="padding: 15px 50px 15px 25px; display: flex; flex-direction: row; justify-content: space-between; border: none;">
+                                        <span style="float: left; width: 50%; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; text-transform: uppercase;" align="left">Balance</span>
+
+                                        <span style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; float: left; width: 50%" align="right"><strong style="width: 8%; text-align: left; display: inline-block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'">$</strong> <strong style="width: 40px; display: inline-block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'">@@TOTALBALANCE@@</strong></span>
+                                    </td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                    <td style="padding: 0px; line-height: 20px;" width="50%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="100%" style="padding-left: 25px; text-align: left; background-color: #fff; border-left: none; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000;">PAYMENT TERMS</td>
+                                    <!-- <td width="50%" style="text-align: left; background-color: #eee; font-size: 11px; font-weight: bold; font-family: 'Interstate'; color: #000;"></td> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px; display: flex; flex-direction: row; justify-content: space-between; border: none;">
+
+                                        <div class="col" width="50%" style="float: left; width: 100%; padding-right: 30px; min-height: 380px;">
+                                            <strong style="float: left; width: 70%" align="left">
+                                                <span style="display: inline-block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; margin-bottom: 6px; margin-bottom: 15px; width: 100%; clear: both;">
+                                                    <strong style="float: left; margin-bottom: 11px;">
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; line-height: 14px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Assigned value by MUV for the asset above at the time of transaction.</span>
+                                                        </strong>
+                                                    </strong>
+                                                    <strong style="float: left; margin-bottom: 11px;">
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; line-height: 14px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Balance pay able to the lending financial institution as of today’s date. This balance will reduce as payments are made.</span>
+                                                        </strong>
+                                                    </strong>
+                                                    <strong style="float: left; margin-bottom: 102px;">
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Balance will be paid by MUV within 7 business days after delivery of selling member’s asset.</span>
+                                                        </strong>
+                                                    </strong>
+                                                    <strong style="float: left;">
+                                                        <strong style="display: block">
+                                                            <span style="display: block; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; margin-bottom: 2px;">Amount due upon sale of this asset.</span>
+                                                        </strong>
+                                                    </strong>
+                                                </span>
+                                            </strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td style="padding: 15px 50px 15px 25px; border: none;">
+                                        <span style="float: left; width: 70%; font-size: 11px; font-weight: light; font-family: 'Comfortaa'; line-height: 12px;" align="left">Payable to member 7 days after delivery to buying member.</span>
+                                    </td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+
+        <br>
+
+        <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+            <!-- <thead>
+            <tr>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+                <td width="50%" style="text-align: left;"><strong></strong></td>
+            </tr>
+        </thead> -->
+            <tbody>
+                <!-- ITEMS HERE -->
+                <tr>
+                    <td style="padding: 0px; line-height: 20px;" width="100%">
+                        <table width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+                            <thead>
+                                <tr>
+                                    <td width="50%" style="padding-left: 25px; text-align: left; background-color: #fff; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; color: #000; text-transform: uppercase">Notes & Signatures</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px 15px 15px 25px; display: flex; flex-direction: row; justify-content: space-between">
+                                        <div class="col" width="50%" style="float: left; width: 45%; padding-right: 30px;">
+                                            <table style="border: none">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 20px">I, <b style="font-weight: bold; font-family: 'Comfortaa'">@@FNAME@@ @@LNAME@@</b>, understand thepayment terms</td>
+                                                        <td style="border: none">
+                                                            <strong>
+                                                                <span class="large" style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; padding-bottom: 6px; border-bottom: 2px solid #888; text-align: center;">@@INITIALSTR@@</span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 20px">Listing agreement has been received and reviewed.</td>
+                                                        <td style="border: none">
+                                                            <strong>
+                                                                <span class="large" style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; padding-bottom: 6px; border-bottom: 2px solid #888; text-align: center;">@@INITIALSTR@@</span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 20px">I have received and reviewed the vehicle information required under the Motor Vehicle Dealers Act,2002.</td>
+                                                        <td style="border: none">
+                                                            <strong>
+                                                                <span class="large" style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; padding-bottom: 6px; border-bottom: 2px solid #888; text-align: center;">@@INITIALSTR@@</span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 20px">Privacy statement has been received and reviewed.</td>
+                                                        <td style="border: none">
+                                                            <strong>
+                                                                <span class="large" style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; padding-bottom: 6px; border-bottom: 2px solid #888; text-align: center;">@@INITIALSTR@@</span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 20px">Sale is final. Please review the entire contract, including all attached statements, before fullysigning. This contract is final and binding once you have signed it unless MUV has failed to comply with certain legal obligations.No other promises or terms have been made to me that have not been a part of this contract.</td>
+                                                        <td style="border: none; vertical-align: bottom; position: relative; bottom: 10px;">
+                                                            <strong>
+                                                                <span class="large" style="display: block; font-size: 11px; font-weight: bold; font-family: 'Comfortaa'; padding-bottom: 6px; border-bottom: 2px solid #888; text-align: center;">@@INITIALSTR@@</span>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col" width="50%" style="float: left; width: 45%; padding-left: 30px;">
+                                            <table class="table table-responsive" style="border-spacing: 0;" width="100%">
+                                                <thead>
+													<tr style="">
+														<th style="border-bottom: 1px solid #888; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;"><img style="width:100px;background-color:black;" src='@@SELLERSIGNATURE@@' /></th>
+														<th style="border-bottom: 1px solid #888; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">@@FNAME@@ @@LNAME@@</th>
+														<th style="border-bottom: 1px solid #888; font-size: 10px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">@@TODAYDATE@@</th>
+													</tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Seller Signature</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Name</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">License</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-responsive" style="border-spacing: 0; margin-top: 20px" width="100%">
+                                                <thead>
+                                                    <tr style="">
+                                                        <th style="border-bottom: 1px solid #888; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;"></th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">MUV</th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">5653291</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: left; padding-left: 10px; text-transform: uppercase;">Dealer Signature</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Name</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">License</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-responsive" style="border-spacing: 0; margin-top: 10px" width="100%">
+                                                <thead>
+                                                    <tr style="">
+                                                        <th style="border-bottom: 1px solid #888; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;"></th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">Tyler French</th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">16/03/2021</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Buyer Signature</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Name</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Date</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-responsive" style="border-spacing: 0; margin-top: 10px" width="100%">
+                                                <thead>
+                                                    <tr style="">
+                                                        <th style="border-bottom: 1px solid #888; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;"></th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;"></th>
+                                                        <th style="border-bottom: 1px solid #888; font-size: 12px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 2px; line-height: 16px; padding-right: 40px; text-align: center;">16/03/2021</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">CO-Seller Signature</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Name</td>
+                                                        <td style="border: none; font-size: 11px; font-weight: normal; font-family: 'Comfortaa'; padding-bottom: 10px; line-height: 16px; border: none; padding-right: 40px; text-align: center; text-transform: uppercase;">Date</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr> -->
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
